@@ -1,0 +1,28 @@
+body {
+display: flex;
+min-height: 100vh;
+flex-direction: column;
+}
+
+main {
+flex: 1 0 auto;
+}
+.border_sinaptica
+{
+	border-radius: 15px;
+	border: solid;
+	border-color: #ffc107;
+	background-color: #FFFFFF;
+	padding-top: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.scroll
+{
+	overflow: auto;
+	height: 200px;
+}
+#action_zone
+{
+	display: none;
+}
