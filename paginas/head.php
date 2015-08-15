@@ -1,6 +1,6 @@
   <head>
     <meta charset="utf-8" />
-    <title>Tranvía-Sináptica</title>
+    <title>Sináptica</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link type="text/css" rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css"  media="screen,projection"/>
 	<link type="text/css" rel="stylesheet" href="css/style.css"/>

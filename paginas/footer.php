@@ -1,13 +1,6 @@
 	</div>
 	</main>
-	<footer class="page-footer amber">
-		<div class="container center hide-on-small-only">
-			<div class="row">
-				<div class="col s12 m12 l12">
-					<img src="img/footer.png" alt="">
-				</div>
-			</div>
-		</div>
+	<footer class="page-footer  blue darken-3">
 	  <div class="footer-copyright">
 	    <div class="container  center black-text">
 	    © 2014 Copyright Sináptica

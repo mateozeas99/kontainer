@@ -1,5 +1,5 @@
 <?php
-	require_once 'core/init.php';
+	//require_once 'core/init.php';
 	//include 'paginas/header.php';
 	if (Input::exists()) {
 		if (Token::check(Input::get('token'))) {
@@ -14,7 +14,7 @@
 				$fields = array("username"=>Input::get('username'),"password"=>Input::get("password"),"remember"=>Input::get("remember"));
 				$fields_string = json_encode($fields);
 				//URL
-				$url = "http://localhost:8080/api/v1/login";
+				$url = "http://kontainer.servehttp.com:8080/api/v1/login";
 				//SEND REQUEST
 				$client = curl_init($url);
 				curl_setopt($client,CURLOPT_POST, 1);
@@ -30,7 +30,15 @@
 				{
 					//HANDLE THE ERROR
 					if($code['http_code'] === 204)
-					echo '<br><div class="row text-center"> Usuario o Password Invalidos</div>';
+					{
+						//echo "Usuario o Password Invalidos";
+						?>
+						<script type="text/javascript">
+						    console.log("Usuario o Password Invalidos");
+						    Materialize.toast("Usuario o Password Invalidos", 2000);
+						</script>
+						<?php
+					}
 					if($code['http_code'] === 404)
 					echo '<br><div class="row text-center"> Error: Por favor comunicarse al 0993862583</div>';
 				}
@@ -57,7 +65,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>Tranvia</title>
+  <title>Sináptica-Kontainer</title>
   <link href="css/fonts.googleapis.css" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css"  media="screen,projection"/>
   <link type="text/css" rel="stylesheet" href="css/style.css"/>
@@ -67,8 +75,8 @@
 <body>
 <header>
   <nav>
-    <div class="nav-wrapper amber">
-      <a href="index.php" class="brand-logo left"><img src="img/logo.png" width="400" height="65"></a>
+    <div class="nav-wrapper  blue darken-3">
+      <!--<a href="index.php" class="brand-logo left"><img src="" width="400" height="65"></a>-->
     </div>
   </nav>
 </header>
@@ -79,14 +87,14 @@
       <div class="row">
         <div class="input-field col s12">
           <!--<i class="material-icons prefix">account_circle</i>-->
-          <input id="username" type="text" name="username" class="validate">
+          <input id="username" type="text" name="username" class="validate" required>
           <label for="username">Username</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
           <!--<i class="material-icons prefix">security</i>-->
-          <input id="password" type="password" name="password" class="validate">
+          <input id="password" type="password" name="password" class="validate" required>
           <label for="password">Password</label>
         </div>
       </div>
@@ -96,7 +104,7 @@
         <input type="hidden" name="token" value="<?php echo Token::generate();?>">
       </div>
       <div class="row">
-        <button class="btn waves-effect waves-light blue amber" type="submit" name="action">Login
+        <button class="btn waves-effect waves-light blue" type="submit" name="action">Login
           <!--<i class="material-icons">send</i>-->
         </button>
       </div>
@@ -107,7 +115,7 @@
   </div>
 </div>
 </main>
-<footer class="page-footer amber">
+<footer class="page-footer  blue darken-3">
   <div class="footer-copyright">
     <div class="container center">
     © 2014 Copyright
