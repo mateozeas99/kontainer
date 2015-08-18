@@ -1,6 +1,5 @@
 <?php
-	//require_once 'core/init.php';
-	//include 'paginas/header.php';
+require_once 'core/init.php';
 	if (Input::exists()) {
 		if (Token::check(Input::get('token'))) {
 			$validate = new Validate();
@@ -14,7 +13,12 @@
 				$fields = array("username"=>Input::get('username'),"password"=>Input::get("password"),"remember"=>Input::get("remember"));
 				$fields_string = json_encode($fields);
 				//URL
-				$url = "http://kontainer.servehttp.com:8080/api/v1/login";
+				if ((substr($_SERVER['REMOTE_ADDR'],0,11) == "192.168.0.") || ($_SERVER['REMOTE_ADDR'] == "127.0.0.1")){
+				        $url = "../api/v1/login";
+				}else{
+				        $url = "http://kontainer.servehttp.com:8080/api/v1/login";
+				}
+				//print_r($fields);
 				//SEND REQUEST
 				$client = curl_init($url);
 				curl_setopt($client,CURLOPT_POST, 1);
@@ -47,8 +51,10 @@
 						$json=json_decode($response);
 						$sessionName = Config::get('session/session_name');
 						$apiKeyName = Config::get('session/api_key_name');
+						$cookieName = Config::get('remember/cookie_name');
 						Session::put($sessionName, $json->id);
 						Session::put($apiKeyName, $json->api_key);
+						Cookie::put($cookieName,$json->hash, Config::get('remember/cookie_expiry'));
 						Redirect::to('index.php');
 				}
 			}
@@ -76,7 +82,7 @@
 <header>
   <nav>
     <div class="nav-wrapper  blue darken-3">
-      <!--<a href="index.php" class="brand-logo left"><img src="" width="400" height="65"></a>-->
+      <a href="index.php" class="brand-logo center"><span>Sinaptica</span></a>
     </div>
   </nav>
 </header>
@@ -99,7 +105,7 @@
         </div>
       </div>
       <div class="row">
-        <input type="checkbox" class="filled-in" id="remember" checked="checked" />
+        <input type="checkbox" class="filled-in" id="remember" name="remember" checked="checked" />
         <label for="remember">Remember</label>
         <input type="hidden" name="token" value="<?php echo Token::generate();?>">
       </div>

@@ -44,19 +44,21 @@ class User
 		if ($user) {
 			//Validar que username sea alfanumerico
 			$field = (is_numeric($user))? 'ID' : 'USERNAME';
+			
 			$data = $this->_db->get('TUSERS',array($field, '=', $user));
 
 			if ($data->count()) {
 				$this->_data = $data->first();
 				return true;
 			}
+			
 		}
 		return false;
 	}
 
 	public function login($username = null,$password =null, $remember= false)
 	{
-		if (!$username && !$password && $this->exists() ) {
+		if (!$username && !$password && $this->exists()) {
 				//Log user in
 				Session::put($this->_sessionName,$this->data()->ID);
 		}
@@ -81,12 +83,9 @@ class User
 						{
 							$hash = $hashCheck->first()->HASH;
 						}
-
-						Cookie::put($this->_cookieName,$hash, Config::get('remember/cookie_expiry'));
-
 					}
-
-					return true;
+					$data = array("id"=>$this->data()->ID,"api_key"=>$this->data()->API_KEY,"hash"=>$hash);
+					return $data;
 				}
 			}
 			return false;
@@ -121,14 +120,17 @@ class User
 
 		if ($this->_db->update('TUSERS',$id,$fields)) {
 			throw new Exception("Error Processing Request", 1);
+			
 		}
 	}
 
 	public function hasPermission($key)
 	{
+		
 		$group = $this->_db->get('TGROUP',array('ID','=',$this->data()->GROUP));
 		if ($group->count()) {
 			$permissions = json_decode($group->first()->PERMISSION,true);
+			
 			if ($permissions[$key] ==true) {
 				return true;
 			}
@@ -145,6 +147,7 @@ class User
 			$specialityId = $queryDoc->first()->SPECIALITY_ID;
 		}
 		$sql = "SELECT NAME FROM TSPECIALITY WHERE ID=?";
+		
 		$query = $this->_db->query($sql,array($specialityId));
 
 		if ($query->count()) {
@@ -153,6 +156,7 @@ class User
 				return true;
 			}
 		}
+		
 		return false;
 	}
 }
